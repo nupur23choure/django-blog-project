@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404, redirect
 from django.core.paginator import Paginator
 from .models import Post, Comment
@@ -9,7 +10,7 @@ def post_list(request):
     page_number = request.GET.get('page')
     post_page = paginator.get_page(page_number)
     return render(request, 'learn/post_list.html', {'posts': post_page})
-
+@login_required
 def post_detail(request, id):
     post = get_object_or_404(Post, id=id)
     next_post = Post.objects.filter(id__gt=post.id).order_by('id').first()
@@ -21,6 +22,8 @@ def post_detail(request, id):
         if comment_form.is_valid():
             new_comment = comment_form.save(commit=False)
             new_comment.post = post
+            new_comment.user = request.user
+            new_comment.email = request.user.email
             new_comment.save()
             return redirect('post_detail', id=post.id)
     else:

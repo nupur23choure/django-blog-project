@@ -21,32 +21,33 @@
 </div>
 <hr>
 
-<h4 class="mt-5">Comments ({{ comments.count }})</h4>
+<h3>Comments ({{ comments.count }})</h3>
 
 {% for comment in comments %}
-<div class="card mb-3">
-    <div class="card-body">
-        <h6 class="card-subtitle mb-1 text-muted">
-            {{ comment.name }} • {{ comment.created_at|date:"M d, Y" }}
-        </h6>
-        <p class="card-text mt-2">{{ comment.body }}</p>
-    </div>
-</div>
+  <div style="border:1px solid #ddd; padding:10px; margin-bottom:10px;">
+      <strong>{{ comment.user.username }}</strong><br>
+      {{ comment.content }}
+  </div>
 {% empty %}
-<p>No comments yet. Be the first!</p>
+  <p>No comments yet.</p>
 {% endfor %}
-
-<hr>
-
 <h4>Add a Comment</h4>
 
+{% if user.is_authenticated %}
 <form method="POST">
     {% csrf_token %}
-    {{ comment_form.as_p }}
+
+    <div class="mb-3">
+        {{ comment_form.content }}
+    </div>
+
     <button type="submit" class="btn btn-primary mt-2">
         Post Comment
     </button>
 </form>
-
-<hr>
+{% else %}
+<p>
+    Please <a href="{% url 'login' %}">login</a> to comment.
+</p>
+{% endif %}
 {% endblock %}
