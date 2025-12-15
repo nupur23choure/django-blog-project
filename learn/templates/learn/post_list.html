@@ -1,0 +1,48 @@
+{% extends "learn/base.html" %}
+{% block content %}
+<h1>Welcome,</h1>
+{% for post in posts %}
+<h2 class="text-center fw-bold mb-3">
+    <a href="{% url 'post_detail' post.pk %}" class="text-decoration-none text-dark">
+        {{ post.title }}
+    </a>
+</h2>
+
+<p class="text-center text-muted fst-italic">
+    Post on {{ post.created_at }} by {{ post.author }}
+</p>
+<div class="row mt-4 align-items-start">
+        <!-- LEFT SIDE — IMAGE -->
+        <div class="col-md-5 mb-3">
+            {% if post.image %}
+            <img src="{{ post.image.url }}" 
+                 class="img-fluid rounded shadow-sm"
+                 style="object-fit: cover; width: 90%; max-height: 250px;">
+            {% endif %}
+        </div>
+        <div class="col-md-7">
+            <div class="truncate-4">
+                {{ post.content}}
+            </div>
+            <a href="{% url 'post_detail' post.pk %}" class="fw-bold text-dark text-decoration-none">
+                Read more...
+            </a>
+        </div>
+        </div>
+
+<hr>
+{% endfor %}
+<div style="margin-top: 20px ;">
+    {% if posts.has_previous %}
+    <a href="?page={{ posts.previous_page_number }}" class="btn btn-dark btn-sm rounded-pill px-3">Previous</a>
+    {% endif %}
+
+    <span style="margin: 0 10px;" class>
+        Page {{ posts.number }} of {{ posts.paginator.num_pages}}
+    </span>
+
+    {% if posts.has_next %}
+    <a href="?page={{ posts.next_page_number }}" class="btn btn-outline-dark btn-sm rounded-pill px-3">Next</a>
+    {% endif %}
+</div>
+{% endblock%}

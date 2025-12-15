@@ -1,0 +1,52 @@
+{% extends "learn/base.html" %}
+{% block title %}{{ post.title }}{% endblock %}
+{% block content %}
+<h1>{{ post.title }}</h1>
+<p><small>Posted on {{ post.created_at }} by {{ post.author }}</small></p>
+<div class="row mt-4 align-items-start">
+    <!-- LEFT SIDE — IMAGE -->
+    <div class="col-md-5 mb-3">
+        {% if post.image %}
+        <img src="{{ post.image.url }}" class="img-fluid rounded shadow-sm"
+            style="object-fit: cover; width: 100%; max-height: 350px;">
+        {% endif %}
+    </div>
+
+    <!-- RIGHT SIDE — CONTENT -->
+    <div class="col-md-7">
+        <div class="fs-5 lh-lg" style="line-height: 1.8;">
+            {{ post.content|safe|linebreaksbr }}
+        </div>
+    </div>
+</div>
+<hr>
+
+<h4 class="mt-5">Comments ({{ comments.count }})</h4>
+
+{% for comment in comments %}
+<div class="card mb-3">
+    <div class="card-body">
+        <h6 class="card-subtitle mb-1 text-muted">
+            {{ comment.name }} • {{ comment.created_at|date:"M d, Y" }}
+        </h6>
+        <p class="card-text mt-2">{{ comment.body }}</p>
+    </div>
+</div>
+{% empty %}
+<p>No comments yet. Be the first!</p>
+{% endfor %}
+
+<hr>
+
+<h4>Add a Comment</h4>
+
+<form method="POST">
+    {% csrf_token %}
+    {{ comment_form.as_p }}
+    <button type="submit" class="btn btn-primary mt-2">
+        Post Comment
+    </button>
+</form>
+
+<hr>
+{% endblock %}
