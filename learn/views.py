@@ -6,10 +6,11 @@ from .forms import CommentForm
 
 def post_list(request):
     posts = Post.objects.order_by('-created_at')
-    paginator  = Paginator(posts, 4) 
+    paginator  = Paginator(posts, 2) 
     page_number = request.GET.get('page')
     post_page = paginator.get_page(page_number)
     return render(request, 'learn/post_list.html', {'posts': post_page})
+
 @login_required
 def post_detail(request, id):
     post = get_object_or_404(Post, id=id)

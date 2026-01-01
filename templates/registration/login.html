@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
@@ -15,6 +16,7 @@
             align-items: center;
             justify-content: center;
         }
+
         .login-card {
             width: 100%;
             max-width: 400px;
@@ -22,8 +24,9 @@
             border-radius: 12px;
             background: #fff;
             border: 2px solid #000;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
         }
+
         input {
             width: 100%;
             padding: 10px;
@@ -32,37 +35,38 @@
         }
     </style>
 </head>
+
 <body>
 
-<div class="login-card">
-    <h3 class="text-center mb-4">Login</h3>
+    <div class="login-card">
+        <h3 class="text-center mb-4">Login</h3>
 
-    {% if form.errors %}
+        {% if form.errors %}
         <div class="alert alert-danger">
             Invalid username or password
         </div>
-    {% endif %}
+        {% endif %}
 
-    <form method="post">
-        {% csrf_token %}
+        <form method="post">
+            {% csrf_token %}
 
-        <div class="mb-3">
-            <label>Username</label>
-            {{ form.username }}
-        </div>
+            <div class="mb-3">
+                <label>Username</label>
+                {{ form.username }}
+            </div>
 
-        <div class="mb-3">
-            <label>Password</label>
-            {{ form.password }}
-        </div>
-<button type="submit"
-        class="btn btn-primary w-50 d-block mx-auto"
-        style="background-color: black; border: white;">
-    Login
-</button>
+            <div class="mb-3">
+                <label>Password</label>
+                {{ form.password }}
+            </div>
+            <button type="submit" class="btn btn-primary w-50 d-block mx-auto"
+                style="background-color: black; border: white;">
+                Login
+            </button>
 
-    </form>
-</div>
+        </form>
+    </div>
 
 </body>
+
 </html>
